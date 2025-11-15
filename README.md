@@ -7,3 +7,5 @@ Maven
 PostgreSQL 16
 JUnit 5
 Something else I could have missed out, but will add a bit later.
+
+![](https://github.com/KatUser/jobj4_notification/actions/workflows/maven_no_graph.yml/badge.svg)
