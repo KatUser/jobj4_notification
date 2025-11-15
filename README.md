@@ -1,4 +1,5 @@
-Notification Service though might seem to be pretty lousy, but it's gonna change.
+**Notification Service** 
+though might seem to be pretty lousy, but it's gonna change.
 
 🐱‍💻🐱‍💻🐱‍💻 Software stack:
 
