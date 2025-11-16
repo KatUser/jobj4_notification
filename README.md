@@ -4,7 +4,7 @@ though might seem to be pretty lousy, but it's gonna change.
 🐱‍💻🐱‍💻🐱‍💻 Software stack:
 
 * Java 17
-* Spring Boot 2 (will be updated in the upcoming future)
+* Spring Boot 2 (will be migrated to newer version in the upcoming future)
 * Maven
 * PostgreSQL 16
 * JUnit 5
