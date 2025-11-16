@@ -1,5 +1,6 @@
 package ru.checkdev.notification.telegram.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
  * @author Dmitry Stepanov, user Dmitry
  * @since 12.09.2023
  */
+
 public class TgConfig {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final Pattern EMAIL_PATTERN = Pattern.compile("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}");
@@ -54,5 +56,10 @@ public class TgConfig {
      */
     public Map<String, String> getObjectToMap(Object object) {
         return MAPPER.convertValue(object, Map.class);
+    }
+
+    public String mapObjectToJson(Object object) throws JsonProcessingException {
+
+        return MAPPER.writeValueAsString(object);
     }
 }

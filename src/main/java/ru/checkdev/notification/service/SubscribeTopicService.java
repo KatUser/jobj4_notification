@@ -22,7 +22,7 @@ public class SubscribeTopicService {
 
     public List<Integer> findTopicByUserId(int userId) {
         return repository.findByUserId(userId).stream()
-                .map(x -> x.getTopicId())
+                .map(SubscribeTopic::getTopicId)
                 .collect(Collectors.toList());
     }
 

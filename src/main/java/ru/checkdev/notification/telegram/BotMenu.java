@@ -1,7 +1,9 @@
 package ru.checkdev.notification.telegram;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.checkdev.notification.telegram.action.Action;
@@ -21,7 +23,6 @@ public class BotMenu extends TelegramLongPollingBot {
     private final Map<String, Action> actions;
     private final String username;
     private final String token;
-
 
     public BotMenu(Map<String, Action> actions, String username, String token) throws TelegramApiException {
         this.actions = actions;
@@ -49,7 +50,12 @@ public class BotMenu extends TelegramLongPollingBot {
                 bindingBy.put(chatId, key);
                 send(msg);
             } else if (bindingBy.containsKey(chatId)) {
-                var msg = actions.get(bindingBy.get(chatId)).callback(update.getMessage());
+                BotApiMethod<Message> msg = null;
+                try {
+                    msg = actions.get(bindingBy.get(chatId)).callback(update.getMessage());
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
                 bindingBy.remove(chatId);
                 send(msg);
             }

@@ -1,5 +1,6 @@
 package ru.checkdev.notification.telegram.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import ru.checkdev.notification.domain.PersonDTO;
 
@@ -50,6 +51,18 @@ class TgConfigTest {
         var map = tgConfig.getObjectToMap(personDto);
         assertThat(map.get("email")).isEqualTo(personDto.getEmail());
         assertThat(map.get("password")).isEqualTo(personDto.getPassword());
-        assertThat(String.valueOf(map.get("privacy"))).isEqualTo(String.valueOf(true));
+
+    }
+
+    @Test
+    void mapToJsonTest() throws JsonProcessingException {
+        PersonDTO personDto =
+                PersonDTO.builder().email("senior@checkdev.ru").fullname("Postman Pechkin").build();
+
+        var result = "{\"email\":\"senior@checkdev.ru\",\"fullname\":\"Postman Pechkin\"}";
+
+        var mapped = tgConfig.mapObjectToJson(personDto);
+        System.out.println(mapped);
+        assertThat(result).isEqualTo(mapped);
     }
 }

@@ -23,8 +23,8 @@ import java.util.Calendar;
 public class RegAction implements Action {
     private static final String ERROR_OBJECT = "error";
     private static final String URL_AUTH_REGISTRATION = "/registration";
-    private final TgConfig tgConfig = new TgConfig("tg/", 8);
-    private final TgAuthCallWebClient authCallWebClint;
+    private final TgConfig tgConfig = new TgConfig("tgТ", 8);
+    private final TgAuthCallWebClient authCallWebClient;
     private final String urlSiteAuth;
 
     @Override
@@ -65,7 +65,7 @@ public class RegAction implements Action {
                 Calendar.getInstance());
         Object result;
         try {
-            result = authCallWebClint.doPost(URL_AUTH_REGISTRATION, person).block();
+            result = authCallWebClient.doPost(URL_AUTH_REGISTRATION, person).block();
         } catch (Exception e) {
             log.error("WebClient doPost error: {}", e.getMessage());
             text = "Сервис не доступен попробуйте позже" + sl

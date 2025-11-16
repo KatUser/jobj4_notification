@@ -23,8 +23,17 @@ public class InfoAction implements Action {
     @Override
     public BotApiMethod<Message> handle(Message message) {
         var chatId = message.getChatId().toString();
+        var text = message.getText();
         String sl = System.lineSeparator();
         var out = new StringBuilder();
+        if (!actions.contains(text)) {
+            out.append("Команда не поддерживается! Выберите действие:").append(sl);
+            for (String action : actions) {
+                out.append(action).append(sl);
+            }
+            return new SendMessage(chatId, out.toString());
+        }
+
         out.append("Выберите действие:").append(sl);
         for (String action : actions) {
             out.append(action).append(sl);

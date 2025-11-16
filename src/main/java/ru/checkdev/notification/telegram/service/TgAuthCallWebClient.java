@@ -4,11 +4,14 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.beans.factory.annotation.Value;
 import reactor.core.publisher.Mono;
 import ru.checkdev.notification.domain.PersonDTO;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -28,12 +31,13 @@ public class TgAuthCallWebClient {
      */
     @Retry(name = "tgAuthRetry") // Применение Retry
     @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackGet") // Применение Circuit Breaker
-    public Mono<PersonDTO> doGet(String url) {
+    public Mono<List<PersonDTO>> doGet(String url) {
         return webClient
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(PersonDTO.class)
+                .bodyToMono(new ParameterizedTypeReference<List<PersonDTO>>() {
+                })
                 .doOnError(err -> log.error("API not found: {}", err.getMessage()));
     }
 
@@ -53,6 +57,18 @@ public class TgAuthCallWebClient {
                 .bodyValue(personDTO)
                 .retrieve()
                 .bodyToMono(Object.class)
+                .doOnError(err -> log.error("API not found: {}", err.getMessage()));
+    }
+
+    @Retry(name = "tgAuthRetry") // Применение Retry
+    @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackGet") // Применение Circuit Breaker
+    public Mono<PersonDTO> doGetSinglePerson(String url) {
+
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(PersonDTO.class)
                 .doOnError(err -> log.error("API not found: {}", err.getMessage()));
     }
 
