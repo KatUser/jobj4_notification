@@ -1,7 +1,6 @@
 package ru.checkdev.notification.telegram.service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.beans.factory.annotation.Value;
 import reactor.core.publisher.Mono;
 import ru.checkdev.notification.domain.PersonDTO;
+
+import java.time.Duration;
+import reactor.util.retry.Retry;
+
 
 @Service
 @Slf4j
@@ -26,7 +29,6 @@ public class TgAuthCallWebClient {
      * @param url URL http
      * @return Mono<Person>
      */
-    @Retry(name = "tgAuthRetry") // Применение Retry
     @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackGet") // Применение Circuit Breaker
     public Mono<PersonDTO> doGet(String url) {
         return webClient
@@ -34,6 +36,10 @@ public class TgAuthCallWebClient {
                 .uri(url)
                 .retrieve()
                 .bodyToMono(PersonDTO.class)
+                .retryWhen(
+                        Retry.backoff(3, Duration.ofSeconds(1))
+                                .maxBackoff(Duration.ofSeconds(10))
+                )
                 .doOnError(err -> log.error("API not found: {}", err.getMessage()));
     }
 
@@ -44,7 +50,6 @@ public class TgAuthCallWebClient {
      * @param personDTO Body PersonDTO.class
      * @return Mono<Object>
      */
-    @Retry(name = "tgAuthRetry") // Применение Retry
     @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackPost") // Применение Circuit Breaker
     public Mono<Object> doPost(String url, PersonDTO personDTO) {
         return webClient
@@ -53,6 +58,10 @@ public class TgAuthCallWebClient {
                 .bodyValue(personDTO)
                 .retrieve()
                 .bodyToMono(Object.class)
+                .retryWhen(
+                        Retry.backoff(3, Duration.ofSeconds(1))
+                                .maxBackoff(Duration.ofSeconds(10))
+                )
                 .doOnError(err -> log.error("API not found: {}", err.getMessage()));
     }
 

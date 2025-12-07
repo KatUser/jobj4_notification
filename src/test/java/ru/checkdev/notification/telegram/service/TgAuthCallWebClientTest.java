@@ -49,7 +49,7 @@ class TgAuthCallWebClientTest {
 
     @Test
     void whenDoGetThenReturnPersonDTO() {
-        Integer personId = 100;
+        int personId = 100;
         var created = new Calendar.Builder()
                 .set(Calendar.DAY_OF_MONTH, 23)
                 .set(Calendar.MONTH, Calendar.OCTOBER)
@@ -65,15 +65,15 @@ class TgAuthCallWebClientTest {
     }
 
     @Test
-    void whenDoGetThenReturnExceptionError() {
-        Integer personId = 100;
+    void whenDoGetThenReturnExceptionWithRetriesExhausted() {
+        int personId = 100;
         when(webClientMock.get()).thenReturn(requestHeadersUriMock);
         when(requestHeadersUriMock.uri("/person/" + personId)).thenReturn(requestHeadersMock);
         when(requestHeadersMock.retrieve()).thenReturn(responseMock);
         when(responseMock.bodyToMono(PersonDTO.class)).thenReturn(Mono.error(new Throwable("Error")));
         assertThatThrownBy(() -> tgAuthCallWebClient.doGet("/person/" + personId).block())
-                .isInstanceOf(Throwable.class)
-                .hasMessageContaining("Error");
+                .isInstanceOf(Exception.class)
+                .hasMessageContaining("Retries exhausted: 3/3");
     }
 
     @Test
