@@ -1,35 +1,23 @@
 package ru.checkdev.notification.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.checkdev.notification.NtfSrv;
-import ru.checkdev.notification.domain.SubscribeTopic;
-import ru.checkdev.notification.telegram.TgRun;
-import ru.checkdev.notification.telegram.service.TgAuthCallWebClient;
-import ru.checkdev.notification.web.TemplateController;
-import java.util.List;
-import static org.junit.Assert.*;
 
-@SpringBootTest(classes = NtfSrv.class)
-@RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ru.checkdev.notification.model.SubscribeTopic;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class SubscribeTopicServiceTest {
+
     @Autowired
     private SubscribeTopicService service;
-
-    @MockBean
-    private TgRun tgRun;
-
-    @MockBean
-    private TgAuthCallWebClient tgAuthCallWebClient;
-
-    @MockBean
-    private TemplateController templateController;
 
     @Test
     public void whenGetAllSubTopicReturnContainsValue() {
@@ -41,7 +29,7 @@ public class SubscribeTopicServiceTest {
     @Test
     public void requestByUserIdReturnCorrectValue() {
         SubscribeTopic subscribeTopic = this.service.save(new SubscribeTopic(1, 2, 2));
-        List<Integer> result = this.service.findTopicByUserId(subscribeTopic.getUserId());
+        List<Integer> result = this.service.findTopicIdsByUserId(subscribeTopic.getUserId());
         assertEquals(result, List.of(2));
     }
 

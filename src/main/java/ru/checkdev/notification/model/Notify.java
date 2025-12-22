@@ -1,4 +1,4 @@
-package ru.checkdev.notification.domain;
+package ru.checkdev.notification.model;
 
 import java.util.Map;
 import java.util.Objects;

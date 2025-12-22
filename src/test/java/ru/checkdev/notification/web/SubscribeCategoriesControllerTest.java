@@ -1,58 +1,41 @@
 package ru.checkdev.notification.web;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import ru.checkdev.notification.NtfSrv;
-import ru.checkdev.notification.domain.SubscribeCategory;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ru.checkdev.notification.model.SubscribeCategory;
 import ru.checkdev.notification.service.SubscribeCategoryService;
-import ru.checkdev.notification.telegram.TgRun;
-import ru.checkdev.notification.telegram.service.TgAuthCallWebClient;
 
 import java.util.List;
+import java.util.Objects;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = NtfSrv.class)
-@AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class SubscribeCategoriesControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private SubscribeCategoriesController subscribeCategoriesController;
 
-    @MockBean
-    private SubscribeCategoryService service;
+    @MockitoBean
+    private SubscribeCategoryService subscribeCategoryService;
 
-    @MockBean
-    private TgRun tgRun;
-
-    @MockBean
-    private TgAuthCallWebClient tgAuthCallWebClient;
-
-    @MockBean
-    private TemplateController templateController;
-
-    private final SubscribeCategory subscribeCategory = new SubscribeCategory(1, 2, 2);
+    private final SubscribeCategory subscribeCategory = new SubscribeCategory(1, 2, 5);
 
     @Test
-    @WithMockUser
-    public void whenFindCategoriesByUserId() throws Exception {
-        when(service.findCategoriesByUserId(subscribeCategory.getUserId())).thenReturn(List.of(subscribeCategory.getUserId()));
-        mockMvc.perform(get("/subscribeCategory/2"))
-                
-                .andExpectAll(status().isOk(),
-                        content().contentType(MediaType.APPLICATION_JSON),
-                        content().string("[2]"));
+    public void whenFindCategoriesByUserId() {
+        when(subscribeCategoryService.findCategoriesByUserId(subscribeCategory.getUserId())).thenReturn(List.of(subscribeCategory.getCategoryId()));
+        var result = subscribeCategoriesController.findCategoriesByUserId(subscribeCategory.getUserId());
+        assertThat(result).isNotNull();
+        assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(Objects.requireNonNull(result.getBody()).contains(5)).isTrue();
     }
 }

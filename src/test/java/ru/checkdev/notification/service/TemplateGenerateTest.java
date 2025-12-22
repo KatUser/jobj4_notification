@@ -1,9 +1,7 @@
 package ru.checkdev.notification.service;
 
-import freemarker.template.TemplateException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,7 +14,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class TemplateGenerateTest {
     @Test
-    public void whenTemplateHasLoopThenRenderTable() throws IOException, TemplateException {
+    public void whenTemplateHasLoopThenRenderTable() {
         SimpleGenerator generator = new SimpleGenerator();
         Map<String, Object> model = new HashMap<>();
         List<List<String>> data = new ArrayList<>();

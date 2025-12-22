@@ -1,6 +1,6 @@
-package ru.checkdev.notification.domain;
+package ru.checkdev.notification.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * @author Petr Arsentev (parsentev@yandex.ru)

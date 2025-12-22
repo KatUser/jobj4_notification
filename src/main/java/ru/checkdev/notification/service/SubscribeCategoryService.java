@@ -2,7 +2,7 @@ package ru.checkdev.notification.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.checkdev.notification.domain.SubscribeCategory;
+import ru.checkdev.notification.model.SubscribeCategory;
 import ru.checkdev.notification.repository.SubscribeCategoryRepository;
 
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class SubscribeCategoryService {
+
     private final SubscribeCategoryRepository repository;
 
     public List<SubscribeCategory> findAll() {

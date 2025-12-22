@@ -3,25 +3,24 @@
  */
 package ru.checkdev.notification.domain;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ru.checkdev.notification.model.Template;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author olegbelov
  * @since 20.12.2016
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class TemplateTest {
 
     @Test
-    public void whenDefaultCounstructorNotNull() {
+    public void whenDefaultConstructorNotNull() {
         Template template = new Template();
         assertNotNull(template);
     }
@@ -33,7 +32,7 @@ public class TemplateTest {
     }
 
     @Test
-    public void whenIDSetandGetEquals() {
+    public void whenIDSetAndGetEquals() {
         Template template = new Template("TestSubject", "TestBody");
         template.setId(1);
         assertThat(1, is(template.getId()));
@@ -41,14 +40,14 @@ public class TemplateTest {
 
 
     @Test
-    public void whenSubjectTypeSetandGetEquals() {
+    public void whenSubjectTypeSetAndGetEquals() {
         Template template = new Template("TestSubject", "TestBody");
         template.setSubject("NewSubject");
         assertThat("NewSubject", is(template.getSubject()));
     }
 
     @Test
-    public void whenBodyTypeSetandGetEquals() {
+    public void whenBodyTypeSetAndGetEquals() {
         Template template = new Template("TestSubject", "TestBody");
         template.setBody("NewBody");
         assertThat("NewBody", is(template.getBody()));
