@@ -19,4 +19,9 @@ public class SubscribeCategory {
     private int id;
     private int userId;
     private int categoryId;
+
+    public SubscribeCategory(int userId, int categoryId) {
+        this.userId = userId;
+        this.categoryId = categoryId;
+    }
 }

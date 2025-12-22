@@ -1,12 +1,12 @@
 package ru.checkdev.notification.service;
 
 import lombok.Data;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.checkdev.notification.model.Template;
 import ru.checkdev.notification.repository.TemplateRepository;
 
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @Data
-@Disabled
+@ActiveProfiles("test")
 public class TemplateServiceTest {
 
     @Autowired
