@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.checkdev.notification.domain.PersonDTO;
+import ru.checkdev.notification.dto.PersonDTO;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -49,7 +49,7 @@ class TgAuthCallWebClientTest {
 
     @Test
     void whenDoGetThenReturnPersonDTO() {
-        Integer personId = 100;
+        int personId = 100;
         var created = new Calendar.Builder()
                 .set(Calendar.DAY_OF_MONTH, 23)
                 .set(Calendar.MONTH, Calendar.OCTOBER)
@@ -66,7 +66,7 @@ class TgAuthCallWebClientTest {
 
     @Test
     void whenDoGetThenReturnExceptionError() {
-        Integer personId = 100;
+        int personId = 100;
         when(webClientMock.get()).thenReturn(requestHeadersUriMock);
         when(requestHeadersUriMock.uri("/person/" + personId)).thenReturn(requestHeadersMock);
         when(requestHeadersMock.retrieve()).thenReturn(responseMock);

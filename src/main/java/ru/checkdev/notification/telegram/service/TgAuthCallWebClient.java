@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.beans.factory.annotation.Value;
 import reactor.core.publisher.Mono;
-import ru.checkdev.notification.domain.PersonDTO;
+import ru.checkdev.notification.dto.PersonDTO;
 
 @Service
 @Slf4j

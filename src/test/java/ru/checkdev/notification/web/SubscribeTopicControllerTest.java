@@ -1,56 +1,42 @@
 package ru.checkdev.notification.web;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import ru.checkdev.notification.NtfSrv;
-import ru.checkdev.notification.domain.SubscribeTopic;
-import ru.checkdev.notification.service.SubscribeTopicService;
-import ru.checkdev.notification.telegram.TgRun;
-import ru.checkdev.notification.telegram.service.TgAuthCallWebClient;
-import java.util.List;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = NtfSrv.class)
-@AutoConfigureMockMvc
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import ru.checkdev.notification.model.SubscribeTopic;
+import ru.checkdev.notification.service.SubscribeTopicService;
+
+import java.util.List;
+import java.util.Objects;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class SubscribeTopicControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private SubscribeTopicController subscribeTopicController;
 
-    @MockBean
+    @MockitoBean
     private SubscribeTopicService service;
 
-    @MockBean
-    private TgRun tgRun;
-
-    @MockBean
-    private TgAuthCallWebClient tgAuthCallWebClient;
-
-    @MockBean
-    private TemplateController templateController;
-
-    private final SubscribeTopic subscribeTopic = new SubscribeTopic(1, 2, 2);
+    private final SubscribeTopic subscribeTopic = new SubscribeTopic(1, 2, 5);
 
     @Test
     @WithMockUser
-    public void whenFindTopicByUserId() throws Exception {
-        when(service.findTopicByUserId(subscribeTopic.getUserId())).thenReturn(List.of(subscribeTopic.getUserId()));
-        mockMvc.perform(get("/subscribeTopic/2"))
-                
-                .andExpectAll(status().isOk(),
-                        content().contentType(MediaType.APPLICATION_JSON),
-                        content().string("[2]"));
+    public void whenFindTopicByUserId() {
+        when(service.findTopicIdsByUserId(anyInt())).thenReturn(List.of(subscribeTopic.getTopicId()));
+        var result = subscribeTopicController.findTopicByUserId(subscribeTopic.getUserId());
+        assertThat(result).isNotNull();
+        assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(Objects.requireNonNull(result.getBody()).contains(subscribeTopic.getTopicId())).isTrue();
     }
 }

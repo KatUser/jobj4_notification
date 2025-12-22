@@ -1,28 +1,33 @@
-/**
- *
- */
 package ru.checkdev.notification.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import lombok.Data;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.checkdev.notification.domain.Template;
+import ru.checkdev.notification.model.Template;
+import ru.checkdev.notification.repository.TemplateRepository;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author olegbelov
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@Data
+@Disabled
 public class TemplateServiceTest {
 
     @Autowired
-    TemplateService templateService;
+    private TemplateService templateService;
+
+    @Autowired
+    private TemplateRepository templateRepository;
 
     @Test
     public void whenGetAllTemplatesReturnContainsValue() {

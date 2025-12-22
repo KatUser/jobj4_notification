@@ -1,12 +1,13 @@
 package ru.checkdev.notification.service;
 
-import com.google.common.collect.Lists;
+import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.checkdev.notification.domain.Setting;
+import ru.checkdev.notification.model.Setting;
 import ru.checkdev.notification.repository.SettingRepository;
 
 import java.util.List;
+
 
 /**
  * @author olegbelov

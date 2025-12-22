@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.checkdev.notification.domain.Notify;
-import ru.checkdev.notification.domain.Template;
-import ru.checkdev.notification.service.NotificationService;
+import ru.checkdev.notification.model.Notify;
+import ru.checkdev.notification.model.Template;
+import ru.checkdev.notification.service.MessagingService;
 import ru.checkdev.notification.service.TemplateService;
 
 import java.util.List;
@@ -22,14 +22,14 @@ public class TemplateController {
 
     private final TemplateService templates;
 
-    private final NotificationService notifications;
+    private final MessagingService messagingService;
 
     private final String access;
 
     @Autowired
-    public TemplateController(@Value("${access.key}") String access, final TemplateService templates, NotificationService notifications) {
+    public TemplateController(@Value("${access.key}") String access, final TemplateService templates, MessagingService messagingService) {
         this.templates = templates;
-        this.notifications = notifications;
+        this.messagingService = messagingService;
         this.access = access;
     }
 
@@ -66,7 +66,7 @@ public class TemplateController {
     @PostMapping("/queue")
     public Notify queue(@RequestParam("access") String access, @RequestBody Notify notify) {
         if (this.access.equals(access)) {
-            this.notifications.put(notify);
+            this.messagingService.put(notify);
         }
         return notify;
     }

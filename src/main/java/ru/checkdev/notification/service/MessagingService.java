@@ -1,23 +1,20 @@
 package ru.checkdev.notification.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.PreDestroy;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.checkdev.notification.domain.Notify;
+import ru.checkdev.notification.model.Notify;
 
-import javax.annotation.PreDestroy;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 @Service
-public class NotificationService {
+@AllArgsConstructor
+public class MessagingService {
 
     private final TemplateService templates;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    @Autowired
-    public NotificationService(final TemplateService templates) {
-        this.templates = templates;
-    }
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void put(final Notify notify) {
         this.scheduler.execute(() -> this.templates.send(notify));
