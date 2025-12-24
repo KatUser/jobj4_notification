@@ -24,7 +24,7 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>1.7.0</version> <!-- Используйте актуальную версию -->
+            <version>1.7.0</version>
         </dependency>
 
         <dependency>
@@ -156,8 +156,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.2.222</version>
-            <scope>test</scope>
+            <scope>runtime</scope> <!-- Или <scope>test</scope> -->
         </dependency>
     </dependencies>
 

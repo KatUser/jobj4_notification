@@ -20,7 +20,7 @@ public class NotificationService {
     }
 
     public void put(final Notify notify) {
-        this.scheduler.execute(() -> this.templates.send(notify));
+        this.scheduler.execute(() -> this.templates.sendNotification(notify));
     }
 
     @PreDestroy

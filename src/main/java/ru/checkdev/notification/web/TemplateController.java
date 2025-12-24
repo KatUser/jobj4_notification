@@ -60,7 +60,7 @@ public class TemplateController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/send")
     public Notify send(@RequestBody Notify notify) {
-        return this.templates.send(notify);
+        return this.templates.sendNotification(notify);
     }
 
     @PostMapping("/queue")

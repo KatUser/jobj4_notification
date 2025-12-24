@@ -59,7 +59,7 @@ public class TemplateService {
         return true;
     }
 
-    public Notify send(Notify notify) {
+    public Notify sendNotification(Notify notify) {
         Template template = this.templates.findByType(notify.getTemplate());
         SimpleGenerator generator = new SimpleGenerator();
         String subject = generator.generate(template.getSubject(), notify.getKeys());

@@ -30,10 +30,6 @@ public class SettingService {
         return this.settings.save(setting);
     }
 
-    public Setting findByKey(Setting.Key key) {
-        return this.settings.findByKey(key);
-    }
-
     public Setting findById(int id) {
         return this.settings.findById(id).get();
     }
