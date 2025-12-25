@@ -1,7 +1,9 @@
 package ru.checkdev.notification.service;
 
 import lombok.NoArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +19,16 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @NoArgsConstructor
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SubscribeCategoryServiceTest {
 
     @Autowired
     private SubscribeCategoryService service;
+
+    @BeforeEach
+    public void setUp() {
+        service.deleteAllSubscribeCategories();
+    }
 
     @Test
     public void whenGetAllSubCatReturnContainsValue() {
@@ -30,10 +38,10 @@ public class SubscribeCategoryServiceTest {
     }
 
     @Test
-    public void requestByUserIdReturnCorrectValue() {
-        SubscribeCategory subscribeCategory = this.service.save(new SubscribeCategory(2, 2));
+    public void requestByUserIdReturnCorrectValueOfCategoryId() {
+        SubscribeCategory subscribeCategory = this.service.save(new SubscribeCategory(25, 27));
         List<Integer> result = this.service.findCategoriesByUserId(subscribeCategory.getUserId());
-        assertEquals(result, List.of(2));
+        assertEquals(result.get(0), subscribeCategory.getCategoryId());
     }
 
     @Test

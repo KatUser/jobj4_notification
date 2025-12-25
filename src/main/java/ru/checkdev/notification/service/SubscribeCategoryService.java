@@ -37,4 +37,8 @@ public class SubscribeCategoryService {
         repository.delete(subscribeCategoryRsl);
         return subscribeCategory;
     }
+
+    public void deleteAllSubscribeCategories() {
+        repository.deleteAll();
+    }
 }

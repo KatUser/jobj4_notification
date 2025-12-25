@@ -1,7 +1,9 @@
 package ru.checkdev.notification.service;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,10 +16,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SubscribeTopicServiceTest {
 
     @Autowired
     private SubscribeTopicService service;
+
+    @BeforeEach
+    void setUp() {
+        service.deleteAll();
+    }
 
     @Test
     public void whenGetAllSubTopicReturnContainsValue() {

@@ -14,4 +14,6 @@ import ru.checkdev.notification.model.Template;
 @Repository
 public interface TemplateRepository extends CrudRepository<Template, Integer> {
     Template findByType(String key);
+
+    void deleteAll();
 }

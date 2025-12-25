@@ -63,4 +63,8 @@ public class TemplateService {
 //        );
         return notify;
     }
+
+    public void deleteAll() {
+        this.templates.deleteAll();
+    }
 }

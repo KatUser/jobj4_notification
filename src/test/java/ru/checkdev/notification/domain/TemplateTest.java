@@ -4,6 +4,7 @@
 package ru.checkdev.notification.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.checkdev.notification.model.Template;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @since 20.12.2016
  */
 @ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TemplateTest {
 
     @Test

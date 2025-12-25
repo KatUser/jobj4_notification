@@ -1,6 +1,7 @@
 package ru.checkdev.notification.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ import static org.hamcrest.core.Is.is;
  * @version $Id$
  * @since 0.1
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TemplateGenerateTest {
     @Test
     public void whenTemplateHasLoopThenRenderTable() {

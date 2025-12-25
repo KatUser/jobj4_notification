@@ -15,4 +15,6 @@ public interface SubscribeCategoryRepository extends CrudRepository<SubscribeCat
     List<SubscribeCategory> findByUserId(int id);
 
     SubscribeCategory findByUserIdAndCategoryId(int userId, int categoryId);
+
+    void deleteAll();
 }

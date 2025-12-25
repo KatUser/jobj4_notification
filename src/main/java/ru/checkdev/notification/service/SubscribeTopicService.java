@@ -32,4 +32,8 @@ public class SubscribeTopicService {
         repository.delete(rsl);
         return subscribeTopic;
     }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

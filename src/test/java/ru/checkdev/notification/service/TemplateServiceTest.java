@@ -2,6 +2,7 @@ package ru.checkdev.notification.service;
 
 import lombok.Data;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Data
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TemplateServiceTest {
 
     @Autowired

@@ -2,6 +2,7 @@ package ru.checkdev.notification.telegram.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
  * @author Dmitry Stepanov, user Dmitry
  * @since 06.10.2023
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 class TgAuthCallWebClientTest {
     private static final String URL = "http://testurl:15000";
