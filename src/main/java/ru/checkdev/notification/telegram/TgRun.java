@@ -10,7 +10,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.checkdev.notification.telegram.action.Action;
 import ru.checkdev.notification.telegram.action.InfoAction;
 import ru.checkdev.notification.telegram.action.RegAction;
-import ru.checkdev.notification.telegram.service.TgAuthCallWebClient;
+import ru.checkdev.notification.telegram.service.ServiceSendingToKafka;
 
 import java.util.List;
 import java.util.Map;
@@ -27,24 +27,26 @@ import java.util.Map;
 @Component
 @Slf4j
 public class TgRun {
-    private final TgAuthCallWebClient tgAuthCallWebClient;
+//    private final TgAuthCallWebClient tgAuthCallWebClient;
     @Value("${tg.username}")
     private String username;
     @Value("${tg.token}")
     private String token;
     @Value("${server.site.url.login}")
     private String urlSiteAuth;
+    private final ServiceSendingToKafka serviceSendingToKafka;
 
-    public TgRun(TgAuthCallWebClient tgAuthCallWebClient) {
-        this.tgAuthCallWebClient = tgAuthCallWebClient;
+    public TgRun(ServiceSendingToKafka serviceSendingToKafka) {
+        this.serviceSendingToKafka = serviceSendingToKafka;
     }
+
 
     @Bean
     public void initTg() {
         Map<String, Action> actionMap = Map.of(
                 "/start", new InfoAction(List.of(
                         "/start", "/new")),
-                "/new", new RegAction(tgAuthCallWebClient, urlSiteAuth)
+                "/new", new RegAction(urlSiteAuth, serviceSendingToKafka)
         );
         try {
             BotMenu menu = new BotMenu(actionMap, username, token);
